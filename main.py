@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from typing import Final
 import requests
 import json
@@ -6,22 +8,22 @@ import json
 class Google_BookSearch : 
     def fetch(q, tof , field ):
         print("This function prints a google url based on param!")
+        load_dotenv()
         url = ""
         base = ["https://www.googleapis.com/books/v1/volumes?q=% s&key=% s", "https://www.googleapis.com/books/v1/volumes?q=% s+% s:% s&key=% s"]
-        fields = ["any", "intitle", "inauthor", "inpublisher", "subject", "isbn"]
-        KEY: final(str) = "AIzaSyBR8ZYZFWKqDpKHWJSTBr1DoorjY29siQE"
+        fields = ["any", "intitle", "inauthor", "inpublisher", "subject", "isbn"] 
         len = tof
-        
+        GOOGLE_KEY: final(str) = os.getenv("GOOGLE_KEY")
         if(len == 0):
             url = (base[0]  % (q, KEY))
         else:
-            url = (base[1]  % (q, fields[tof], field, KEY))
+            url = (base[1]  % (q, fields[tof], field, GOOGLE_KEY))
             
 
         
         print("q = " + q)
         print("field = " + fields[tof])
-        print("url = " + url)
+        #print("url = " + url)
         r = requests.get(url)
         print("output :" )
         result = r.json()
